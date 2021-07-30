@@ -6,11 +6,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./components/reduxStore/store";
+import {NotificationContainer} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
+      <NotificationContainer />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
