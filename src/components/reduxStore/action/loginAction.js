@@ -1,21 +1,26 @@
-import axios from "axios";
+import { requestProcessor } from "../../../utils/urls/requestProcessor"
+import { PROFILE } from "../constants";
+import {NotificationManager} from "react-notifications";
 
-export const submitDetails = async (data) => {
-  const signUp = "https://eva-resturant.herokuapp.com/api/admin/login";
+const loginAction = (payload) => (dispatch, getState)=>
+new Promise (async(resolve, reject)=>{
 
-  return await axios
-    .post(signUp, data)
-    .then((res) => {
-        console.log(res, 123);
-        console.log(res.data.message, 3535);
-        if (res?.data?.data) {
-          return { success: true, data: res.data.data };
-        } else {
-          return { success: false, message: res.data.message };
-        }
-    })
-    .catch((err) => {
-      return { success: false, message: err.response.data.message };
+  try {
+    const response = await requestProcessor({
+      method: 'POST',
+      url: '/login',
+      payload,
+      dispatch,
     });
-};
- 
+    dispatch({
+      type: PROFILE,
+      payload: response.data
+    });
+    resolve(response)
+    NotificationManager.success("Successful login")          
+  } catch (error) {
+    NotificationManager.error(error.message)
+    reject (error)
+  }
+})
+export default loginAction;
