@@ -1,11 +1,10 @@
-import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import pic from "../components/images/fruits.jpg";
 import { submitDetails } from "./reduxStore/action/loginAction";
-import { SIGN_UP } from "./reduxStore/constants";
+import { IS_AUTHENTICATED, PROFILE } from "./reduxStore/constants";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -15,27 +14,24 @@ const LoginPage = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    console.log(email, password);
-
-    // const url = "https://eva-resturant.herokuapp.com/api/admin/login";
-    // let res = await axios.post(url, JSON.stringify({ email, password }));
-
-    // res = await res.json();
-    
+    console.log(email, password);    
     submitDetails({ email, password })
       .then((res) => {
         console.log({ res });
         if (res?.success) {
           dispatch({
-            type: SIGN_UP,
+            type: PROFILE,
             payload: res.data,
+          });
+          dispatch({
+            type: IS_AUTHENTICATED,
+            payload: true,
           });
 
           localStorage.setItem("user_data", JSON.stringify(res.data));
           history.push("/dashboard");
         } else {
           alert(res.message)
-          //  console.log(res);
         }
       })
   };
