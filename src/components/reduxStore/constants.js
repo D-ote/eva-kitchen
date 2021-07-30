@@ -1,1 +1,3 @@
-export const SIGN_UP = "SIGNUP_NOTIFICATION";
+export const PROFILE = "PROFILE";
+
+export const IS_AUTHENTICATED = "IS_AUTHENTICATED";
