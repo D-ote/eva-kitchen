@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
-import { NotificationContainer, NotificationManager } from "react-notifications";
+import { NotificationManager } from "react-notifications";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import pic from "../components/images/fruits.jpg";
@@ -16,13 +16,6 @@ const LoginPage = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    console.log(email, password);
-
-    // const url = "https://eva-resturant.herokuapp.com/api/admin/login";
-    // let res = await axios.post(url, JSON.stringify({ email, password }));
-
-    // res = await res.json();
-    
     submitDetails({ email, password })
       .then((res) => {
         console.log({ res });
@@ -37,7 +30,6 @@ const LoginPage = () => {
         } else {
 
           NotificationManager.error(res.message)
-          //  console.log(res);
         }
       })
   };
