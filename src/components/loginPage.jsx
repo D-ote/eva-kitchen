@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -15,13 +14,7 @@ const LoginPage = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    console.log(email, password);
-
-    // const url = "https://eva-resturant.herokuapp.com/api/admin/login";
-    // let res = await axios.post(url, JSON.stringify({ email, password }));
-
-    // res = await res.json();
-    
+    console.log(email, password);    
     submitDetails({ email, password })
       .then((res) => {
         console.log({ res });
@@ -39,7 +32,6 @@ const LoginPage = () => {
           history.push("/dashboard");
         } else {
           alert(res.message)
-          //  console.log(res);
         }
       })
   };
