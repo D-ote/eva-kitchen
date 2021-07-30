@@ -1,40 +1,31 @@
 import React from "react";
-import { useState } from "react";
-import { NotificationManager } from "react-notifications";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { connect, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import pic from "../components/images/fruits.jpg";
-import { submitDetails } from "./reduxStore/action/loginAction";
-import { IS_AUTHENTICATED, PROFILE } from "./reduxStore/constants";
+import loginAction from "./reduxStore/action/loginAction";
 
-const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const LoginPage = ({loginAction}) => {
+  const[loginDetails, setLoginDetails] = useState({
+      email: "",
+      password:"",
+  })
   const history = useHistory();
-  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
 
-  const handleSignIn = async (e) => {
+  const handleChange=(e)=>{
+    setLoginDetails({...loginDetails, [e.target.id]: e.target.value})
+  }
+  
+  useEffect(() => {
+    if(auth?.profile?.authToken){
+      history.replace("/dashboard")
+    }
+  }, [auth, history])
+
+  const handleSignIn = (e) => {
     e.preventDefault();
-    submitDetails({ email, password })
-      .then((res) => {
-        console.log({ res });
-        if (res?.success) {
-          dispatch({
-            type: PROFILE,
-            payload: res.data,
-          });
-          dispatch({
-            type: IS_AUTHENTICATED,
-            payload: true,
-          });
-
-          NotificationManager.success("Successful login")          
-          history.push("/dashboard");
-        } else {
-
-          NotificationManager.error(res.message)
-        }
-      })
+      loginAction(loginDetails);
   };
 
   return (
@@ -54,12 +45,12 @@ const LoginPage = () => {
           <input
             type="email"
             name="email"
-            value={email}
+            value={loginDetails?.email}
             id="email"
             className="email"
             placeholder="email"
             required
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChange}
           />
           <label htmlFor="email" className="emailLabel">
             email
@@ -69,12 +60,12 @@ const LoginPage = () => {
           <input
             type="password"
             name="password"
-            value={password}
+            value={loginDetails?.password}
             id="password"
             className="password"
             placeholder="password"
             required
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleChange}
           />
           <label htmlFor="password" className="passwordLabel">
             password
@@ -89,4 +80,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default connect(null, {loginAction})(LoginPage);
