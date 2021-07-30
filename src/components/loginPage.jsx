@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { NotificationManager } from "react-notifications";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import pic from "../components/images/fruits.jpg";
@@ -14,7 +15,6 @@ const LoginPage = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    console.log(email, password);    
     submitDetails({ email, password })
       .then((res) => {
         console.log({ res });
@@ -28,10 +28,11 @@ const LoginPage = () => {
             payload: true,
           });
 
-          localStorage.setItem("user_data", JSON.stringify(res.data));
+          NotificationManager.success("Successful login")          
           history.push("/dashboard");
         } else {
-          alert(res.message)
+
+          NotificationManager.error(res.message)
         }
       })
   };
@@ -48,7 +49,7 @@ const LoginPage = () => {
       }}
     >
       <form action="submit">
-        <h1 className="header"><span className="eva">Eva</span> <span>Kitchen</span></h1>
+        <h1 className="header"><span className="eva">Eva</span><span>Kitchen</span></h1>
         <div className="emailDiv">
           <input
             type="email"
