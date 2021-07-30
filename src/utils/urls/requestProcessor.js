@@ -7,16 +7,17 @@ export const requestProcessor = async({
   method,
   url,
   payload,
+  dispatch,
 }) => {
     try {
         const result = await axios ({
-            method, url, data:payload,
+            method, url, data:payload, dispatch
         })
         return { status:result.status, ...result.data };
     } catch (error) {
         if (error?.response){
-            throw{status: error.response.status, ...eror.response.data}
+            throw new Error({status: error.response.status, ...error.response.data})
         }       
-        throw{message:error.message}
+        throw new Error({message:error.message})
     }
 };
