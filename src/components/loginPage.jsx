@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import pic from "../components/images/fruits.jpg";
 import { submitDetails } from "./reduxStore/action/loginAction";
-import { SIGN_UP } from "./reduxStore/constants";
+import { IS_AUTHENTICATED, PROFILE } from "./reduxStore/constants";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -27,8 +27,12 @@ const LoginPage = () => {
         console.log({ res });
         if (res?.success) {
           dispatch({
-            type: SIGN_UP,
+            type: PROFILE,
             payload: res.data,
+          });
+          dispatch({
+            type: IS_AUTHENTICATED,
+            payload: true,
           });
 
           localStorage.setItem("user_data", JSON.stringify(res.data));

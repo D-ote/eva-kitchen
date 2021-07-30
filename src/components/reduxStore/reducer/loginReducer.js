@@ -1,22 +1,25 @@
-import { SIGN_UP } from "../constants";
+import { PROFILE, IS_AUTHENTICATED } from "../constants";
 
 const initialState = {
-    email: "",
-    password: "",
+    isAuthenticated:false,
     profile: null
 }
 
-const loginReducer = (state=initialState, action) => {
+const authReducer = (state=initialState, action) => {
     switch (action.type) {
-        case SIGN_UP:
+        case IS_AUTHENTICATED:
             return {
                 ...state,
-                profile: action.payload
+                isAuthenticated:action.payload,
             };
-    
+            case PROFILE:
+                return {
+                    ...state,
+                    profile: action.payload
+                };
         default:
             return state;
     }
 }
 
-export default loginReducer;
+export default authReducer;
