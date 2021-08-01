@@ -19,7 +19,7 @@ const LoginPage = ({loginAction}) => {
   
   useEffect(() => {
     if(auth?.profile?.authToken){
-      history.replace("/dashboard")
+      history.replace("/users")
     }
   }, [auth, history])
 
@@ -39,13 +39,13 @@ const LoginPage = ({loginAction}) => {
         backgroundBlendMode: "lighten",
       }}
     >
-      <form action="submit">
+      <form action="submit" className="loginForm">
         <h1 className="header"><span className="eva">Eva</span><span>Kitchen</span></h1>
         <div className="emailDiv">
           <input
             type="email"
             name="email"
-            value={loginDetails?.email}
+            value={loginDetails.email}
             id="email"
             className="email"
             placeholder="email"
@@ -60,7 +60,7 @@ const LoginPage = ({loginAction}) => {
           <input
             type="password"
             name="password"
-            value={loginDetails?.password}
+            value={loginDetails.password}
             id="password"
             className="password"
             placeholder="password"
